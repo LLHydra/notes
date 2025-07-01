@@ -28,7 +28,7 @@ function createnote() {
     if (notetext.trim() !== '') {
         const note = {
             id: new Date().getTime(),
-            Text: notetext
+            text: notetext
         };
 
         const existingNotes = JSON.parse(localStorage.getItem('notes')) || [];
@@ -74,8 +74,7 @@ function createnote() {
         <textarea id="note-text">${notetext}</textarea>
         <div id="btn-container">
         <button id="submitBtn" onclick="updatenote()">Done</button>
-        <button id="closeBtn" onclick="closeditpopup()>Cancel</button>
-        </div>
+        <button id="closeBtn" onclick="closeditpopup()">Cancel</button>
         </div>
         `;
 
@@ -85,9 +84,8 @@ function createnote() {
     function closeditpopup() {
         const editingpopup = document.getElementById("editing-container");
 
-        if(editingpopup) {
-            editingpopup.remove();
-        }
+        if(editingpopup) editingpopup.remove();
+        
     }
 
     function updatenote() {
@@ -95,8 +93,8 @@ function createnote() {
         const editingpopup = document.getElementById('editing-container');
 
         if(notetext !== '') {
-            const noteId = document.getAttribute('data-note-Id');
-            let notes = JSON.parse(localstorage.getItem('notes')) || [];
+            const noteId = editingpopup.getAttribute('data-note-id');
+            let notes = JSON.parse(localStorage.getItem('notes')) || [];
 
             const updatednotes = notes.map(note => {
                 if (note.id == noteId) {
@@ -105,7 +103,7 @@ function createnote() {
                 return note;
             });
 
-            localstorage.setItem('notes', JSON.stringify(updatednotes));
+            localStorage.setItem('notes', JSON.stringify(updatednotes));
 
             editingpopup.remove();
 
@@ -114,11 +112,74 @@ function createnote() {
     }
 
     function deletenote(noteId) {
-        let note = JSON.parse(localStorage.getItem('note')) || [];
-        note = note.filter(note => note.id !== noteId);
+        let notes = JSON.parse(localStorage.getItem('notes')) || [];
+        notes = notes.filter(note => note.id !== noteId);
 
         localStorage.setItem('notes', JSON.stringify(notes));
         displaynotes();
+    } 
+
+// login
+
+const loginForm= document.getElementById("login-form");
+const loginButton= document.getElementById("login-form-submit")
+const loginErrorMsg = document.getElementById("login-error-msg")
+const show = document.getElementById("container");
+const hide = document.getElementById("overlay");
+const hidelogin = document.getElementById("main");
+const hideform = document.getElementById("login-form");
+const logout = document.getElementById("log-out");
+const guys= [hide, hidelogin, hideform];
+
+
+loginButton.addEventListener("click", (e) => {e.preventDefault();
+    const username = loginForm.username.value;
+    const password = loginForm.password.value;
+
+    if(localStorage.getItem("username") === null & localStorage.getItem("password") === null) {
+        localStorage.setItem("password", password);
+        localStorage.setItem("username", username);
+    
     }
 
+    if(username === localStorage.getItem("username") && password === localStorage.getItem("password")) {
+        sessionStorage.setItem("isLoggedIn", "true");
+        alert ("You have succesfully logged in.");
+        location.reload()
+    }else {
+        loginErrorMsg.style.opacity = 1;
+    }
+})
+
+if (sessionStorage.getItem("isLoggedIn") === "true") {
+    for (let i = 0; i < guys.length; i++) {
+        guys[i].style.display = "none"
+    }
+    show.style.display= "block";
+window.onload = () => {
+    document.getElementById("user-name").textContent = localStorage.getItem("username");
+
+    welcome.style.opacity = 1;
+    welcome.style.visibility= "visible";
+    logout.style.visibility = "visible";
+    logout.style.opacity= 1;
+
+
+    setTimeout(() => {
+        welcome.style.opacity= 0;
+        welcome.style.visibility = "hidden";
+    
+    }, 5000);
+}
     displaynotes();
+    
+}
+
+function logoutme() {
+
+localStorage.clear();
+sessionStorage.clear();
+location.reload();
+
+}
+logout.addEventListener("click", logoutme)

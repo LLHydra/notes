@@ -6,23 +6,41 @@
     <title>Forsennnnn</title>
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 
 <body>
+    <h1 id="welcome">Welcome, <span id="user-name"></span> </h1>
+    <button id="log-out">Clear Everything</button>
+  
     <div id="container">
-
         <div id="list-header">
             <div id="addNoteDiv" onclick="popup()">
                 <i class="fa-solid fa-plus"></i>
             </div>
-            <div class="blankdiv"></div>
-            <div class="blankDiv"></div>
         </div>
 
         <div id="list-container">
             <ul id="notes-list"></ul>
         </div>
     </div>
+    <div id="overlay"></div>
+    <main id="main">
+        <h1 id="login">Login</h1>
+
+        <div id="login-error-holder">
+            <p id="login-error-msg">Invalid Username<span id="error-msg-password"> and/or Password</span> </p>
+        </div>
+
+        <form id="login-form">
+            <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+            <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+            <input type="submit" value="Login" id="login-form-submit">
+        </form>
+
+
 
     <script src="./script.js"></script>
 </body>
